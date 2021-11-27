@@ -58,7 +58,7 @@ body {
   }
 
 
-  .moveButton {
+  .moveButton,.RenderToggleButton {
     size: 300px;
     background:rgb(231, 235, 17);
     color: rgb(190, 30, 190);

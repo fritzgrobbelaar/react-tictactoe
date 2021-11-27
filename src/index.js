@@ -11,7 +11,6 @@ function Square(props) {
   );
 }
 
-
 class Board extends React.Component {
   renderSquare(i) {
     return (
@@ -45,11 +44,7 @@ renderRows(){
   }
 }
 
-function renderToggleButton() {
-  console.log("This code at the toggle button runs")
-  return (<div><p>Toggle good test</p></div>);
 
-}
 
 class Game extends React.Component {
   constructor(props) {
@@ -61,6 +56,7 @@ class Game extends React.Component {
         }
       ],
       stepNumber: 0,
+      orderStateReverse: false,
       xIsNext: true,
       clicksArray: []
     };
@@ -91,6 +87,23 @@ class Game extends React.Component {
     });
   }
 
+  ToggleOrder(orderStateReverse) {
+    console.log("Receiving orderstate: " + orderStateReverse)
+    if (orderStateReverse === true){
+      console.log("Switched to false");
+      orderStateReverse = false;
+      this.setState({orderStateReverse:false})
+    }
+    else {
+      console.log("Switched to true");
+      this.setState({orderStateReverse:true})
+      orderStateReverse = true;} 
+    console.log("returning orderStateReverse: " + orderStateReverse);
+    
+    return orderStateReverse;
+  }
+  
+
   jumpTo(step) {
     this.setState({
       stepNumber: step,
@@ -102,13 +115,13 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
-    //const lastClick = this.state.lastclicks[-1];
+
     const moves = history.map((step, move) => {
       const desc = move ?
         
-        'Go to move #' + move + "  "+this.state.clicksArray.toString() + " clicked on:"+ getLocation(history[move].clickedOn):
+        'Go to move #' + move + "  "+this.state.clicksArray.toString() + " Clicked on:"+ getLocation(history[move].clickedOn):
         'Go to game start';
-        console.log('move current.squares' +current.squares+ " move:"+move + "clicked on:"+current.clickedOn);
+        
 
       if (move === this.state.stepNumber) {
         const classNameText = "selectedMoveButton"
@@ -126,6 +139,9 @@ class Game extends React.Component {
       )};
     });
 
+    if (this.state.orderStateReverse === true)
+      {moves.reverse()};
+
     let status;
     if (winner) {
       status = "Winner: " + winner;
@@ -142,7 +158,7 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-        <div>{renderToggleButton()}</div>
+        <div><button className='RenderToggleButton' onClick={() => this.ToggleOrder(this.state.orderStateReverse)}>Reverse Order of Moves</button></div>
         
           <div>{status}</div>
           <ol>{moves}</ol>
