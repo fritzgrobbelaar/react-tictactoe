@@ -83,7 +83,7 @@ class Game extends React.Component {
     console.log('this stat clicksarray :'+this.state.clicksArray.toString())    ;
     console.log("this step:"+this.state.stepNumber);
     console.log("clicked on "+i);
-    if (calculateWinner(squares) || squares[i]) {
+    if (calculateWinner(squares).winner || squares[i]) {
       return;
     }
     squares[i] = this.state.xIsNext ? "X" : "O";
@@ -126,7 +126,7 @@ class Game extends React.Component {
     const winnerObject = calculateWinner(current.squares);
     console.log(winnerObject)
     const winner = winnerObject.winner
-    const winnerSquares = winnerObject.squares
+    const winnerSquaresIDs = winnerObject.squares
 
     const moves = history.map((step, move) => {
       const desc = move ?
@@ -155,6 +155,9 @@ class Game extends React.Component {
 
     let status;
     if (winner) {
+      for (let i=0;i<3;i++){
+        current.winningSquares[winnerSquaresIDs[i]] = true;
+      }
       status = "Winner: " + winner;
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
@@ -198,7 +201,7 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return {winner:squares[a]};
+      return {winner:squares[a],squares:lines[i]};
     }
   }
   return {winner:null,squares:[null,null,null]};
