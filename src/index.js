@@ -11,23 +11,6 @@ function Square(props) {
   );
 }
 
-// class  ReturnRow extends React.Component {
-//   renderSquare(i) {
-//     return (
-      
-//       <Square
-//         value={this.props.squares[i]}
-//         onClick={() => this.props.onClick(i)}
-//       />
-//     );
-//   };
-// }
-// render (){
-//   {this.renderSquare(0)}
-//   {this.renderSquare(1)}
-//   {this.renderSquare(2)}
-// }
-
 
 class Board extends React.Component {
   renderSquare(i) {
@@ -60,6 +43,12 @@ renderRows(){
       <div>{this.renderRows()}</div>
     );
   }
+}
+
+function renderToggleButton() {
+  console.log("This code at the toggle button runs")
+  return (<div><p>Toggle good test</p></div>);
+
 }
 
 class Game extends React.Component {
@@ -121,7 +110,7 @@ class Game extends React.Component {
         'Go to game start';
         console.log('move current.squares' +current.squares+ " move:"+move + "clicked on:"+current.clickedOn);
 
-      if (move == this.state.stepNumber) {
+      if (move === this.state.stepNumber) {
         const classNameText = "selectedMoveButton"
         return (
           <li key={move}>
@@ -153,6 +142,8 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
+        <div>{renderToggleButton()}</div>
+        
           <div>{status}</div>
           <ol>{moves}</ol>
         </div>
