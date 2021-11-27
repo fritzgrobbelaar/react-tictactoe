@@ -159,7 +159,12 @@ class Game extends React.Component {
         current.winningSquares[winnerSquaresIDs[i]] = true;
       }
       status = "Winner: " + winner;
-    } else {
+    } 
+    else if (history.length === 10)
+    {
+      status = "Draw";
+    }
+    else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
   }
 
